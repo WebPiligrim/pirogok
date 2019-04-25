@@ -65,7 +65,7 @@ public class PostController {
 
 
     @GetMapping("/index")
-    public String index(@RequestParam(required = false, defaultValue = "")String tag, Model model){
+    public String index(@RequestParam(required = false, defaultValue ="")String tag, Model model){
        List<Post> posts = postRepo.findAll();
 
        if(tag!=null && !tag.isEmpty()){

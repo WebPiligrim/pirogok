@@ -27,6 +27,10 @@
             <#else>
                 <div class="navbar-text mr-3"><h5>${name}</h5></div>
         </#if>
-        <@l.logout/>
+        <#if !user??>
+        <#else>
+            <@l.logout/>
+        </#if>
+
     </div>
 </nav>
