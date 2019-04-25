@@ -2,37 +2,55 @@
 <#import "parts/login.ftl" as out>
 
 <@c.page>
-    <div>
-    <@out.logout/>
-        <span><a href="/user">All users</a></span>
-    </div>
-<div>
-    <form method="post" enctype="multipart/form-data">
-        <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        <input type="text" name="text" placeholder="Input message"/>
-        <input type="text" name="tag" placeholder="Tag"/>
-        <input type="file" name="file">
-        <button type="submit">Add</button>
-    </form>
-</div>
-<div>Posts</div>
-<form method="get" action="/index">
-    <input type="text" name="tag" value="${tag?ifExists}">
-    <button type="submit">Find</button>
-</form>
-<#list posts as post>
-    <div>
-        <b>${post.id}</b>
-    <span>${post.text}</span>
-    <i>${post.tag}</i>
-        <strong>${post.authorName}</strong>
-        <div>
-            <#if post.fileneme??>
-                <img src="/img/${post.filename}"
-            </#if>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <form method="get" action="/main" class="form-inline">
+                <input type="text" name="filter" class="form-control" value="${filter?ifExists}" placeholder="Search by tag">
+                <button type="submit" class="btn btn-primary ml-2">Search</button>
+            </form>
         </div>
     </div>
-<#else>
-    No posts
-</#list>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Create new post
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="form-group mt-3">
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="text" placeholder="Input message" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="tag" placeholder="Tag">
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card-columns">
+        <#list posts as post>
+            <div class="card my-3">
+                <#if post.filename??>
+                    <img src="/img/${post.filename}" class="card-img-top">
+                </#if>
+                <div class="m-2">
+                    <span>${post.text}</span>
+                    <i>${post.tag}</i>
+                </div>
+                <div class="card-footer text-muted">
+                    ${post.authorName}
+                </div>
+            </div>
+        <#else>
+            No post
+        </#list>
+    </div>
 </@c.page>
